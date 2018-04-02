@@ -1,41 +1,70 @@
 # SendgridClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sendgrid_client`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
+Sendgrid ruby client which wraper the [SendGrid v3 API ](https://sendgrid.com/docs/API_Reference/api_v3.html)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sendgrid_client'
+gem 'sendgrid_client', git: 'git@github.com:resumecompanion/sendgrid_client.git'
 ```
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
     $ gem install sendgrid_client
+require ruby version `>= 1.9.3`
 
 ## Usage
 
-TODO: Write usage instructions here
-
+### Config the credential
+```ruby
+SendgridClient.configure do |config|
+  config.username = 'USER_NAME'
+  config.password = 'PASSWORD'
+  config.test_mode = false # default false
+end
+```
+or
+```ruby
+SendgridClient.Configuration.username = 'USER_NAME'
+SendgridClient.Configuration.password = 'PASSWORD'
+```
 ## Development
+### Create & update recipient to contact list
+params can be array of hash, create mutiple recipients at one time.
+```ruby
+params = { email: 'test@test.com',
+           first_name: 'firstname',
+           last_name: 'lastname',  
+           YOUR_CUSTOM_FIELD: 'xxxx'
+         }
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+SendgridClient::Contact.update(params)
+```
+### search recipient from contact list
+```ruby
+SendgridClient::Contact.search('test@test.com')
+```
+### Delete recipient from contact list
+```ruby
+SendgridClient::Contact.delete('test@test.com')
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Test
+Set `test_mode` as true can pervent send request in test environment
 
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sendgrid_client. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
+```ruby
+SendgridClient.configure do |config|
+  config.test_mode = true # default false
+end
+```
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
