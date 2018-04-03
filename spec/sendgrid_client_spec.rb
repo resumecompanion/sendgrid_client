@@ -1,11 +1,22 @@
 require "spec_helper"
 
 RSpec.describe SendgridClient do
-  it "has a version number" do
-    expect(SendgridClient::VERSION).not_to be nil
+  describe '#configuration' do
+    subject { SendgridClient.configuration }
+    it { is_expected.to be_a_kind_of(SendgridClient::Configuration) }
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  describe '#configure' do
+    subject { SendgridClient.configure }
+    it 'give block to yield' do
+      expect { |config| SendgridClient.configure(&config) }.to yield_control
+      expect { |config| SendgridClient.configure(&config) }.to yield_with_args(SendgridClient.configuration)
+    end
+
+    it 'pass Configuration instance to yield block' do
+      SendgridClient.configure do |config|
+        expect(config).to be_a_kind_of(SendgridClient::Configuration)
+      end
+    end
   end
 end
