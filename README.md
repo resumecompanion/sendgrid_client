@@ -32,8 +32,8 @@ end
 ```
 or
 ```ruby
-SendgridClient.Configuration.username = 'USER_NAME'
-SendgridClient.Configuration.password = 'PASSWORD'
+SendgridClient.configuration.username = 'USER_NAME'
+SendgridClient.configuration.password = 'PASSWORD'
 ```
 ## Development
 ### Create & update recipient to contact list
